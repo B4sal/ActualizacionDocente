@@ -25,7 +25,7 @@ function loadDetalles(curso) {
                     <td>${detalle.expediente}</td>
                     <td>${detalle.nombre}</td>
                     <td>
-                        <button onclick="editarDetalle(${detalle.id_detalle})">Editar</button>
+                        <button onclick="mostrarFormularioEditar(${detalle.id_detalle}, '${detalle.periodo}', ${detalle.id_curso}, '${detalle.expediente}', '${detalle.nombre}')">Editar</button>
                         <button onclick="borrarDetalle(${detalle.id_detalle})">Borrar</button>
                     </td>
                 `;
@@ -51,11 +51,29 @@ function agregarDetalle() {
     .then(() => loadDetalles(id_curso));
 }
 
-function editarDetalle(id) {
-    const periodo = prompt("Ingrese el nuevo periodo:");
-    const id_curso = prompt("Ingrese el nuevo ID del curso:");
-    const expediente = prompt("Ingrese el nuevo expediente:");
-    const nombre = prompt("Ingrese el nuevo nombre:");
+function mostrarFormularioEditar(id, periodo, id_curso, expediente, nombre) {
+    const form = document.getElementById('formEditar');
+    form.innerHTML = `
+        <input type="hidden" id="editId" value="${id}">
+        <label for="editPeriodo">Periodo:</label>
+        <input type="text" id="editPeriodo" value="${periodo}">
+        <label for="editCurso">ID Curso:</label>
+        <input type="text" id="editCurso" value="${id_curso}">
+        <label for="editExpediente">Expediente:</label>
+        <input type="text" id="editExpediente" value="${expediente}">
+        <label for="editNombre">Nombre:</label>
+        <input type="text" id="editNombre" value="${nombre}">
+        <button type="button" onclick="editarDetalle()">Guardar</button>
+    `;
+    form.style.display = 'block';
+}
+
+function editarDetalle() {
+    const id = document.getElementById('editId').value;
+    const periodo = document.getElementById('editPeriodo').value;
+    const id_curso = document.getElementById('editCurso').value;
+    const expediente = document.getElementById('editExpediente').value;
+    const nombre = document.getElementById('editNombre').value;
 
     fetch('crud_detalle.php?action=editDetalle', {
         method: 'POST',
@@ -65,7 +83,12 @@ function editarDetalle(id) {
         body: JSON.stringify({ id, periodo, id_curso, expediente, nombre })
     })
     .then(response => response.json())
-    .then(() => loadDetalles(id_curso));
+    .then(() => {
+        const params = new URLSearchParams(window.location.search);
+        const curso = params.get('curso');
+        loadDetalles(curso);
+        document.getElementById('formEditar').style.display = 'none';
+    });
 }
 
 function borrarDetalle(id) {
