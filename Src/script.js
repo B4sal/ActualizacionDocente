@@ -5,7 +5,13 @@ document.addEventListener('DOMContentLoaded', function() {
     loadHorarios();
 
     // Add event listener for the capture button
-    document.getElementById('btnCapturar').addEventListener('click', getProfesores);
+    document.getElementById('btnCapturar').addEventListener('click', function() {
+        getProfesores();
+        const periodo = document.getElementById('periodo').value;
+        const curso = document.getElementById('curso').value;
+        const horario = document.getElementById('horario').value;
+        window.open(`detalle.html?periodo=${periodo}&curso=${curso}&horario=${horario}`, '_blank');
+    });
 });
 
 function loadPeriodos() {
