@@ -26,6 +26,24 @@
         <button type="button" id="btnCapturar">No de profe: <span id="noProfesores">Capturar Detalles</span></button>
     </form>
 
+    <h2>Periodos</h2>
+    <ul id="periodosList"></ul>
+
     <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('getPeriodos.php')
+                .then(response => response.json())
+                .then(data => {
+                    const periodosList = document.getElementById('periodosList');
+                    data.forEach(periodo => {
+                        const li = document.createElement('li');
+                        li.textContent = periodo;
+                        periodosList.appendChild(li);
+                    });
+                })
+                .catch(error => console.error('Error fetching periodos:', error));
+        });
+    </script>
 </body>
 </html>
