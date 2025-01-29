@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualización Docente</title>
+</head>
+<body>
+    <nav> 
+        <img src="https://roque.tecnm.mx/oldpage/img/logos/logo_tecnm.webp" alt="Logo tecnm" weight="50" height="50">
+        <img src="https://www.merida.tecnm.mx/wp-content/themes/merida-tecnm-understrap/assets/files/main/img/merida.png" alt="Logo itmerida" weight="50" height="50">
+        <a href="index.html">Inicio</a>
+    </nav>
+    <h1> Actualización Docente</h1>
+    <h2> Bienvenido al sistema de actualización docente</h2>
+
+    <table id="encabezadoTable" border="1">
+        <thead>
+            <tr>
+                <th>ID Curso</th>
+                <th>Periodo</th>
+                <th>Curso</th>
+                <th>Horario</th>
+                <th>No. de Profesores</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- El js pondra aqui los datos -->
+        </tbody>
+    </table>
+
+    <button id="addButton">Agregar Nuevo</button>
+
+    <!-- editar y eliminar y eso -->
+    <div id="formContainer" style="display:none;">
+        <h3 id="formTitle">Agregar Nuevo Curso</h3>
+        <form id="crudForm">
+            <input type="hidden" id="id_curso" name="id_curso">
+            <label for="periodo">Periodo:</label>
+            <input type="text" id="periodo" name="periodo" required><br><br>
+            
+            <label for="curso">Curso:</label>
+            <input type="text" id="curso" name="curso" required><br><br>
+            
+            <label for="horario">Horario:</label>
+            <input type="text" id="horario" name="horario" required><br><br>
+            
+            <label for="no_profesores">No. de Profesores:</label>
+            <input type="number" id="no_profesores" name="no_profesores" required><br><br>
+            
+            <button type="submit" id="saveButton">Guardar</button>
+            <button type="button" id="cancelButton">Cancelar</button>
+        </form>
+    </div>
+
+    <script src="crud.js"></script>
+</body>
+</html>
