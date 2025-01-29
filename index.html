@@ -1,35 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Actualización Docente</title>
-</head>
-<body>
-    <nav> 
-        <img src="https://roque.tecnm.mx/oldpage/img/logos/logo_tecnm.webp" alt="Logo tecnm" weight="50" height="50">
-        <img src="https://www.merida.tecnm.mx/wp-content/themes/merida-tecnm-understrap/assets/files/main/img/merida.png" alt="Logo itmerida" weight="50" height="50">
-        <a href="periodosycursos.html">Periodos y Cursos</a>
+  </head>
+  <body>
+    <nav>
+      <img
+        src="https://roque.tecnm.mx/oldpage/img/logos/logo_tecnm.webp"
+        alt="Logo tecnm"
+        weight="50"
+        height="50"
+      />
+      <img
+        src="https://www.merida.tecnm.mx/wp-content/themes/merida-tecnm-understrap/assets/files/main/img/merida.png"
+        alt="Logo itmerida"
+        weight="50"
+        height="50"
+      />
+      <a href="periodosycursos.html">Periodos y Cursos</a>
     </nav>
-    <h1> Actualización Docente</h1>
-    <h2> Bienvenido al sistema de actualización docente</h2>
+    <h1>Actualización Docente</h1>
+    <h2>Bienvenido al sistema de actualización docente</h2>
     <form id="fetchForm">
-        <label for="periodo">Periodo:</label>
-        <select id="periodo" name="periodo"></select><br><br>
-        
-        <label for="curso">Curso:</label>
-        <select id="curso" name="curso"></select><br><br>
-        
-        <label for="horario">Horario:</label>
-        <select id="horario" name="horario"></select><br><br>
-        
-        <label for="profesores">No. de profesores:</label>
-        <input type="number" id="profesores" name="profesores" min="1" max="10" readonly><br><br>
-        
-        <input type="button" id="fetchButton" value="Buscar numero de profesores">
-        <input type="button" id="DetallesButton" value="Capturar Detalles">
+      <label for="periodo">Periodo:</label>
+      <select id="periodo" name="periodo"></select
+      ><br /><br />
 
+      <label for="curso">Curso:</label>
+      <select id="curso" name="curso"></select
+      ><br /><br />
+
+      <label for="horario">Horario:</label>
+      <select id="horario" name="horario"></select
+      ><br /><br />
+
+      <label for="profesores">No. de profesores:</label>
+      <input
+        type="number"
+        id="profesores"
+        name="profesores"
+        min="1"
+        max="10"
+        readonly
+      /><br /><br />
+
+      <input
+        type="button"
+        id="fetchButton"
+        value="Buscar numero de profesores"
+      />
+    <input type="button" id="DetallesButton" value="Capturar Detalles" onclick="window.location.href='detalles.html'" />
     </form>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

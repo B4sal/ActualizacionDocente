@@ -11,21 +11,34 @@ document.addEventListener('DOMContentLoaded', function() {
             cursoSelect.innerHTML = '<option value="">Seleccione un curso</option>';
             horarioSelect.innerHTML = '<option value="">Seleccione un horario</option>';
 
+            const periodos = new Set();
+            const cursos = new Set();
+            const horarios = new Set();
+
             data.forEach(item => {
-                const periodoOption = document.createElement('option');
-                periodoOption.value = item.periodo;
-                periodoOption.textContent = item.periodo;
-                periodoSelect.appendChild(periodoOption);
+                if (!periodos.has(item.periodo)) {
+                    periodos.add(item.periodo);
+                    const periodoOption = document.createElement('option');
+                    periodoOption.value = item.periodo;
+                    periodoOption.textContent = item.periodo;
+                    periodoSelect.appendChild(periodoOption);
+                }
 
-                const cursoOption = document.createElement('option');
-                cursoOption.value = item.curso;
-                cursoOption.textContent = item.curso;
-                cursoSelect.appendChild(cursoOption);
+                if (!cursos.has(item.curso)) {
+                    cursos.add(item.curso);
+                    const cursoOption = document.createElement('option');
+                    cursoOption.value = item.curso;
+                    cursoOption.textContent = item.curso;
+                    cursoSelect.appendChild(cursoOption);
+                }
 
-                const horarioOption = document.createElement('option');
-                horarioOption.value = item.horario;
-                horarioOption.textContent = item.horario;
-                horarioSelect.appendChild(horarioOption);
+                if (!horarios.has(item.horario)) {
+                    horarios.add(item.horario);
+                    const horarioOption = document.createElement('option');
+                    horarioOption.value = item.horario;
+                    horarioOption.textContent = item.horario;
+                    horarioSelect.appendChild(horarioOption);
+                }
             });
         });
 
