@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualización Docente</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">
+            <img src="https://seeklogo.com/images/I/instituto-tecnologico-de-merida-logo-2A6671B8FF-seeklogo.com.png" alt="Instituto Tecnológico de Mérida" width="30" height="24">
+          </a>
+          Actualización Docente
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="index.html">Inicio</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="cursos.html">Cursos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="periodos.html">Periodos</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <div class="container mt-4">
+          <h2>Administrar Periodos</h2>
+          <button id="addPeriodoBtn" class="btn btn-success mb-3">Agregar Periodo</button>
+          <div class="accordion" id="cursosAccordion">
+              <!-- Periodos will be populated here -->
+          </div>
+      </div>
+
+      <!-- Modal for adding/editing periodos -->
+      <div class="modal fade" id="periodoModal" tabindex="-1" aria-labelledby="periodoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="periodoModalLabel">Agregar/Editar Periodo</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="periodoForm">
+                <div class="mb-3">
+                  <label for="nombrePeriodo" class="form-label">Nombre del Periodo</label>
+                  <input type="text" class="form-control" id="nombrePeriodo" required>
+                </div>
+                <input type="hidden" id="periodoId">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        $(document).ready(function() {
+            function loadPeriodos() {
+                $.ajax({
+                    url: 'get_periodos.php',
+                    method: 'GET',
+                    success: function(data) {
+                        const periodos = JSON.parse(data);
+                        if (periodos.error) {
+                            alert(periodos.error);
+                            return;
+                        }
+                        $('#cursosAccordion').empty();
+                        periodos.forEach(periodo => {
+                            $('#cursosAccordion').append(`
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="heading${periodo.id_periodo}">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${periodo.id_periodo}" aria-expanded="true" aria-controls="collapse${periodo.id_periodo}">
+                                            ${periodo.nombre_periodo}
+                                        </button>
+                                    </h2>
+                                    <div id="collapse${periodo.id_periodo}" class="accordion-collapse collapse" aria-labelledby="heading${periodo.id_periodo}" data-bs-parent="#cursosAccordion">
+                                        <div class="accordion-body">
+                                            <button class="btn btn-warning editPeriodoBtn" data-id="${periodo.id_periodo}" data-nombre="${periodo.nombre_periodo}">Editar</button>
+                                            <button class="btn btn-danger deletePeriodoBtn" data-id="${periodo.id_periodo}">Borrar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `);
+                        });
+                    },
+                    error: function() {
+                        alert('Error al cargar los periodos');
+                    }
+                });
+            }
+
+            loadPeriodos();
+
+            $('#addPeriodoBtn').click(function() {
+                $('#periodoId').val('');
+                $('#nombrePeriodo').val('');
+                $('#periodoModalLabel').text('Agregar Periodo');
+                $('#periodoModal').modal('show');
+            });
+
+            $(document).on('click', '.editPeriodoBtn', function() {
+                const id = $(this).data('id');
+                const nombre = $(this).data('nombre');
+                $('#periodoId').val(id);
+                $('#nombrePeriodo').val(nombre);
+                $('#periodoModalLabel').text('Editar Periodo');
+                $('#periodoModal').modal('show');
+            });
+
+            $(document).on('click', '.deletePeriodoBtn', function() {
+                const id = $(this).data('id');
+                if (confirm('¿Estás seguro de que deseas borrar este periodo?')) {
+                    $.ajax({
+                        url: 'delete_periodo.php',
+                        method: 'POST',
+                        data: { id_periodo: id },
+                        success: function(response) {
+                            loadPeriodos();
+                        },
+                        error: function() {
+                            alert('Error al borrar el periodo');
+                        }
+                    });
+                }
+            });
+
+            $('#periodoForm').submit(function(e) {
+                e.preventDefault();
+                const id = $('#periodoId').val();
+                const nombre = $('#nombrePeriodo').val();
+                const url = id ? 'update_periodo.php' : 'add_periodo.php';
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: { id_periodo: id, nombre_periodo: nombre },
+                    success: function(response) {
+                        $('#periodoModal').modal('hide');
+                        loadPeriodos();
+                    },
+                    error: function() {
+                        alert('Error al guardar el periodo');
+                    }
+                });
+            });
+        });
+      </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
