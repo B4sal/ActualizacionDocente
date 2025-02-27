@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Confirmar la transacción
         mysqli_commit($enlace);
         
-        echo "✅ Registro guardado con éxito en Encabezado y Horario_Cursos.";
+        echo "✅ Registro guardado con éxito.";
 
     } catch (Exception $e) {
         // Revertir la transacción en caso de error
