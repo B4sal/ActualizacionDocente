@@ -1,7 +1,7 @@
 <?php
 include 'conn.php';
 
-$query = "SELECT id, curso, status FROM cursos"; // Asegúrate de seleccionar el campo 'status'
+$query = "SELECT id, curso, status FROM cursos";
 $result = mysqli_query($enlace, $query);
 
 $cursos = [];

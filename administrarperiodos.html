@@ -8,62 +8,71 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">
-            <img src="https://seeklogo.com/images/I/instituto-tecnologico-de-merida-logo-2A6671B8FF-seeklogo.com.png" alt="Instituto Tecnológico de Mérida" width="30" height="24">
-          </a>
-          Actualización Docente
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="index.html">Inicio</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="cursos.html">Cursos</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="periodos.html">Periodos</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-
-      <div class="container mt-4">
-          <h2>Administrar Periodos</h2>
-          <button id="addPeriodoBtn" class="btn btn-success mb-3">Agregar Periodo</button>
-          <div class="accordion" id="cursosAccordion">
-              <!-- Periodos will be populated here -->
-          </div>
-      </div>
-
-      <!-- Modal for adding/editing periodos -->
-      <div class="modal fade" id="periodoModal" tabindex="-1" aria-labelledby="periodoModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="periodoModalLabel">Agregar/Editar Periodo</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form id="periodoForm">
-                <div class="mb-3">
-                  <label for="nombrePeriodo" class="form-label">Nombre del Periodo</label>
-                  <input type="text" class="form-control" id="nombrePeriodo" required>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+        <div class="container">
+            <a class="navbar-brand fs-4" href="index.html">
+                <img src="https://seeklogo.com/images/I/instituto-tecnologico-de-merida-logo-2A6671B8FF-seeklogo.com.png" alt="Instituto Tecnológico de Mérida" width="30" height="24">
+                Actualización Docente
+            </a>
+            <!-- Button Colspan -->
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <!-- Responsive Sidebar -->
+                <div class="offcanvas-header border-bottom">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Opciones</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-                <input type="hidden" id="periodoId">
-                <button type="submit" class="btn btn-primary">Guardar</button>
-              </form>
+                <div class="sidebar offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 gap-5">
+                        <li class="nav-item">
+                            <a class="nav-link active fs-4" aria-current="page" href="index.html">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fs-4" href="cursos.html">Cursos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fs-4" href="periodos.html">Periodos</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+    </nav>
 
-      <script>
+    <div class="container mt-5 pt-5">
+        <h2 class="text-center">Administrar Periodos</h2>
+        <button id="addPeriodoBtn" class="btn btn-success mb-3">Agregar Periodo</button>
+        <div class="accordion" id="cursosAccordion">
+            <!-- Periodos will be populated here -->
+        </div>
+    </div>
+
+    <!-- Modal for adding/editing periodos -->
+    <div class="modal fade" id="periodoModal" tabindex="-1" aria-labelledby="periodoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="periodoModalLabel">Agregar/Editar Periodo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="periodoForm">
+                        <div class="mb-3">
+                            <label for="nombrePeriodo" class="form-label">Nombre del Periodo</label>
+                            <input type="text" class="form-control" id="nombrePeriodo" required>
+                        </div>
+                        <input type="hidden" id="periodoId">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
         $(document).ready(function() {
             function loadPeriodos() {
                 $.ajax({
