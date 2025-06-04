@@ -53,6 +53,12 @@
             <select id="curso" name="curso" class="form-select" required></select>
             <br>
 
+            <label for="horario">Horario:</label>
+            <select id="horario" name="horario" class="form-select" required disabled>
+                <option value="">Seleccione un horario</option>
+            </select>
+            <br>
+
             <label for="profe">Profesor:</label>
             <input type="text" id="profe" name="profe" class="form-control" required>
             <br>
@@ -73,6 +79,9 @@
         <table id="dataTable" class="table table-striped mt-3">
             <thead>
                 <tr>
+                    <th>Nombre</th>
+                    <th>Expediente</th>
+                    <th>Correo</th>
                     <th>Curso</th>
                     <th>Horario</th>
                 </tr>
@@ -90,7 +99,7 @@
         $(document).ready(function() {
             // Cargar periodos
             $.getJSON('get_periodos.php', function(data) {
-                $('#periodo').append('<option value="">Seleccione un periodo</option>');
+                $('#periodo').empty().append('<option value="">Seleccione un periodo</option>');
                 $.each(data, function(index, item) {
                     $('#periodo').append('<option value="' + item.id_periodo + '">' + item.nombre_periodo + '</option>');
                 });
@@ -98,10 +107,30 @@
 
             // Cargar cursos
             $.getJSON('get_cursos.php', function(data) {
-                $('#curso').append('<option value="">Seleccione un curso</option>');
+                $('#curso').empty().append('<option value="">Seleccione un curso</option>');
                 $.each(data, function(index, item) {
                     $('#curso').append('<option value="' + item.id + '">' + item.curso + '</option>');
                 });
+            });
+
+            // Manejar cambio de curso
+            $('#curso').change(function() {
+                const cursoId = $(this).val();
+                const horarioSelect = $('#horario');
+                
+                horarioSelect.prop('disabled', true);
+                horarioSelect.empty().append('<option value="">Seleccione un horario</option>');
+                
+                if (cursoId) {
+                    $.getJSON('get_horarios.php', { id_curso: cursoId }, function(data) {
+                        if (data.length > 0) {
+                            $.each(data, function(index, item) {
+                                horarioSelect.append(`<option value="${item.num}">${item.horario}</option>`);
+                            });
+                            horarioSelect.prop('disabled', false);
+                        }
+                    });
+                }
             });
 
             // Enviar formulario
@@ -115,6 +144,7 @@
                     success: function(response) {
                         $('#mensaje').html('<div class="alert alert-success">' + response + '</div>');
                         $('#profeForm')[0].reset();
+                        $('#horario').prop('disabled', true).empty().append('<option value="">Seleccione un horario</option>');
                     },
                     error: function() {
                         $('#mensaje').html('<div class="alert alert-danger">Error al enviar datos.</div>');
@@ -124,16 +154,39 @@
 
             // Actualizar tabla
             $('#updateTableBtn').click(function() {
-                $.getJSON('get_registro.php', function(data) {
+                const periodo = $('#periodo').val();
+                const curso = $('#curso').val();
+                
+                if (!periodo || !curso) {
+                    alert('Por favor seleccione un periodo y un curso');
+                    return;
+                }
+                
+                $.getJSON('get_registro.php', { 
+                    periodo: periodo,
+                    curso: curso
+                }, function(data) {
                     var tableContent = '';
-                    $.each(data, function(index, item) {
-                        tableContent += `
+                    if (data.length === 0) {
+                        tableContent = `
                             <tr>
-                                <td>${item.curso}</td>
-                                <td>${item.horario}</td>
+                                <td colspan="5" class="text-center">No hay registros para este periodo y curso</td>
                             </tr>`;
-                    });
+                    } else {
+                        $.each(data, function(index, item) {
+                            tableContent += `
+                                <tr>
+                                    <td>${item.nombre}</td>
+                                    <td>${item.expediente}</td>
+                                    <td>${item.correo}</td>
+                                    <td>${item.curso}</td>
+                                    <td>${item.horario}</td>
+                                </tr>`;
+                        });
+                    }
                     $('#dataTable tbody').html(tableContent);
+                }).fail(function() {
+                    alert('Error al cargar los registros');
                 });
             });
         });

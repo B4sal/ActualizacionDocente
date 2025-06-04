@@ -1,7 +1,7 @@
 <?php
 include 'conn.php';
 
-$query = "SELECT id_periodo, nombre_periodo FROM periodo";
+$query = "SELECT DISTINCT id_periodo, nombre_periodo FROM periodo ORDER BY nombre_periodo";
 $result = mysqli_query($enlace, $query);
 
 if (!$result) {
@@ -15,4 +15,5 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 
 echo json_encode($periodos);
+mysqli_close($enlace);
 ?>

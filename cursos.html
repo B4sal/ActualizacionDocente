@@ -55,24 +55,52 @@
         $(document).ready(function() {
             // Cargar cursos
             $.getJSON('get_cursos.php', function(data) {
+                var groupedCourses = {};
+
+                // Agrupar cursos por nombre
+                data.forEach(function(item) {
+                    if (!groupedCourses[item.curso]) {
+                        groupedCourses[item.curso] = {
+                            id: item.id,
+                            status: item.status,
+                            horarios: []
+                        };
+                    }
+                    groupedCourses[item.curso].horarios.push(item.id); // Guardar IDs para obtener horarios
+                });
+
                 var accordionContent = '';
-                $.each(data, function(index, item) {
+                $.each(groupedCourses, function(curso, details) {
                     accordionContent += `
                         <div class="accordion-item">
-                            <h2 class="accordion-header" id="heading${item.id}">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${item.id}" aria-expanded="false" aria-controls="collapse${item.id}">
-                                    ${item.curso}
+                            <h2 class="accordion-header" id="heading${details.id}">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${details.id}" aria-expanded="false" aria-controls="collapse${details.id}">
+                                    ${curso}
                                 </button>
                             </h2>
-                            <div id="collapse${item.id}" class="accordion-collapse collapse" aria-labelledby="heading${item.id}" data-bs-parent="#cursosAccordion">
+                            <div id="collapse${details.id}" class="accordion-collapse collapse" aria-labelledby="heading${details.id}" data-bs-parent="#cursosAccordion">
                                 <div class="accordion-body">
-                                    <strong>ID:</strong> ${item.id}<br>
-                                    <strong>Curso:</strong> ${item.curso}<br>
-                                    <strong>Status:</strong> ${item.status === 'A' ? 'Activo' : 'Inactivo'}
+                                    <strong>Status:</strong> ${details.status === 'A' ? 'Activo' : 'Inactivo'}<br>
+                                    <strong>Horarios:</strong>
+                                    <ul id="horarios-${details.id}" class="list-group mt-2">
+                                        <!-- Horarios will be populated here -->
+                                    </ul>
                                 </div>
                             </div>
                         </div>`;
+
+                    // Cargar horarios para cada curso agrupado
+                    details.horarios.forEach(function(id) {
+                        $.getJSON('get_horarios.php', { id_curso: id }, function(horarios) {
+                            var horariosList = '';
+                            $.each(horarios, function(i, horario) {
+                                horariosList += `<li class="list-group-item">${horario.horario}</li>`;
+                            });
+                            $(`#horarios-${details.id}`).append(horariosList);
+                        });
+                    });
                 });
+
                 $('#cursosAccordion').html(accordionContent);
             });
         });

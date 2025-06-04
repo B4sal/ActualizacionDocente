@@ -54,6 +54,9 @@
                 <option value="I">Inactivo</option>
             </select>
             <br>
+            <label for="horario">Horario:</label>
+            <input type="text" id="horario" name="horario" class="form-control" placeholder="Ejemplo: 08:00 - 10:00" required>
+            <br>
             <button type="submit" class="btn btn-primary">Agregar Curso</button>
         </form>
         <br>
@@ -84,6 +87,12 @@
                             <option value="I">Inactivo</option>
                         </select>
                         <br>
+                        <label for="editCursoHorarios">Horarios:</label>
+                        <ul id="editCursoHorarios" class="list-group">
+                            <!-- Existing horarios will be populated here -->
+                        </ul>
+                        <button type="button" id="addHorarioBtn" class="btn btn-success btn-sm mt-2">Agregar Horario</button>
+                        <br><br>
                         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                     </form>
                 </div>
@@ -96,33 +105,65 @@
             // Cargar cursos
             function loadCursos() {
                 $.getJSON('get_cursos.php', function(data) {
+                    var processedCourses = {};
+
+                    // Process unique courses only
+                    data.forEach(function(item) {
+                        if (!processedCourses[item.id]) {
+                            processedCourses[item.id] = {
+                                id: item.id,
+                                curso: item.curso,
+                                status: item.status
+                            };
+                        }
+                    });
+
                     var accordionContent = '';
-                    $.each(data, function(index, item) {
+                    $.each(processedCourses, function(id, course) {
                         accordionContent += `
                             <div class="accordion-item">
-                                <h2 class="accordion-header" id="heading${item.id}">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${item.id}" aria-expanded="false" aria-controls="collapse${item.id}">
-                                        ${item.curso}
+                                <h2 class="accordion-header" id="heading${course.id}">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${course.id}" aria-expanded="false" aria-controls="collapse${course.id}">
+                                        ${course.curso}
                                     </button>
                                 </h2>
-                                <div id="collapse${item.id}" class="accordion-collapse collapse" aria-labelledby="heading${item.id}" data-bs-parent="#cursosAccordion">
+                                <div id="collapse${course.id}" class="accordion-collapse collapse" aria-labelledby="heading${course.id}" data-bs-parent="#cursosAccordion">
                                     <div class="accordion-body">
-                                        <strong>ID:</strong> ${item.id}<br>
-                                        <strong>Curso:</strong> ${item.curso}<br>
-                                        <strong>Status:</strong> ${item.status === 'A' ? 'Activo' : 'Inactivo'}<br>
-                                        <button class="btn btn-danger btn-sm delete-curso" data-id="${item.id}">Eliminar</button>
-                                        <button class="btn btn-warning btn-sm edit-curso" data-id="${item.id}" data-curso="${item.curso}" data-status="${item.status}" data-bs-toggle="modal" data-bs-target="#editCourseModal">Editar</button>
+                                        <strong>Status:</strong> ${course.status === 'A' ? 'Activo' : 'Inactivo'}<br>
+                                        <strong>Horarios:</strong>
+                                        <ul id="horarios-${course.id}" class="list-group mt-2">
+                                            <!-- Horarios will be populated here -->
+                                        </ul>
+                                        <button class="btn btn-danger btn-sm delete-curso" data-id="${course.id}">Eliminar</button>
+                                        <button class="btn btn-warning btn-sm edit-curso" data-id="${course.id}" data-curso="${course.curso}" data-status="${course.status}" data-bs-toggle="modal" data-bs-target="#editCourseModal">Editar</button>
                                     </div>
                                 </div>
                             </div>`;
                     });
+
                     $('#cursosAccordion').html(accordionContent);
+                    
+                    // Load schedules for each course
+                    $.each(processedCourses, function(id, course) {
+                        loadHorarios(course.id);
+                    });
+                });
+            }
+            
+            // Función separada para cargar los horarios
+            function loadHorarios(id_curso) {
+                $.getJSON('get_horarios.php', { id_curso: id_curso }, function(horarios) {
+                    var horariosList = '';
+                    $.each(horarios, function(i, horario) {
+                        horariosList += `<li class="list-group-item">${horario.horario}</li>`;
+                    });
+                    $(`#horarios-${id_curso}`).html(horariosList);
                 });
             }
 
             loadCursos();
 
-            // Agregar curso
+            // Agregar curso y horario
             $('#cursoForm').submit(function(event) {
                 event.preventDefault();
                 $.ajax({
@@ -167,15 +208,59 @@
                 $('#editCursoId').val(id);
                 $('#editCursoNombre').val(curso);
                 $('#editCursoStatus').val(status);
+
+                // Load horarios for the selected course
+                $.getJSON('get_horarios.php', { id_curso: id }, function(horarios) {
+                    var horarioList = '';
+                    $.each(horarios, function(i, horario) {
+                        horarioList += `
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>${horario.horario}</span>
+                                <button class="btn btn-danger btn-sm delete-horario" data-num="${horario.num}">Eliminar</button>
+                            </li>`;
+                    });
+                    $('#editCursoHorarios').html(horarioList);
+                });
             });
 
-            // Guardar cambios del curso editado
+            // Add new horario input
+            $('#addHorarioBtn').on('click', function() {
+                $('#editCursoHorarios').append(`
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <input type="text" class="form-control new-horario" placeholder="Nuevo horario">
+                        <button class="btn btn-danger btn-sm remove-horario">Eliminar</button>
+                    </li>`);
+            });
+
+            // Remove new horario input
+            $(document).on('click', '.remove-horario', function() {
+                $(this).closest('li').remove();
+            });
+
+            // Delete existing horario
+            $(document).on('click', '.delete-horario', function() {
+                var id_curso = $('#editCursoId').val();
+                var num = $(this).data('num');
+                if (confirm('¿Está seguro de que desea eliminar este horario?')) {
+                    $.post('delete_horario.php', { id_curso: id_curso, num: num }, function(response) {
+                        alert(response);
+                        $(this).closest('li').remove();
+                    }.bind(this));
+                }
+            });
+
+            // Save edited course and horarios
             $('#editCursoForm').submit(function(event) {
                 event.preventDefault();
+                var newHorarios = [];
+                $('.new-horario').each(function() {
+                    newHorarios.push($(this).val());
+                });
+
                 $.ajax({
                     type: 'POST',
                     url: 'edit_curso.php',
-                    data: $(this).serialize(),
+                    data: $(this).serialize() + '&new_horarios=' + JSON.stringify(newHorarios),
                     success: function(response) {
                         $('#mensaje').html('<div class="alert alert-success">' + response + '</div>');
                         $('#editCourseModal').modal('hide');

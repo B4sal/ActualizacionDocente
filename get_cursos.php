@@ -1,13 +1,14 @@
 <?php
 include 'conn.php';
 
-$query = "SELECT id, curso, status FROM cursos";
-$result = mysqli_query($enlace, $query);
+$query = "SELECT DISTINCT c.id, c.curso, c.status FROM cursos c ORDER BY c.curso";
+$result = $enlace->query($query);
 
 $cursos = [];
-while ($row = mysqli_fetch_assoc($result)) {
+while ($row = $result->fetch_assoc()) {
     $cursos[] = $row;
 }
 
 echo json_encode($cursos);
+$enlace->close();
 ?>
