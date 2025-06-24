@@ -1,0 +1,397 @@
+/* CSS básico */
+body {
+    background-color: #f8f9fa;
+}
+
+.sidebar {
+    min-height: 100vh;
+}
+
+.main-content {
+    padding: 20px;
+}
+
+/* Professional welcome section */
+.alert-info {
+    background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+    color: #1565c0;
+}
+
+.alert-info .bi-info-circle-fill {
+    color: #1976d2;
+}
+
+/* Header section improvements */
+.lead {
+    font-size: 1.1rem;
+    font-weight: 300;
+}
+
+hr {
+    border-top: 2px solid #1B396A;
+    opacity: 0.3;
+}
+
+/* Navbar styles */
+.navbar-brand {
+    font-weight: 600;
+}
+
+.navbar-nav .nav-link {
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+/* Card styles */
+.card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 8px;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #e9ecef;
+    font-weight: 600;
+}
+
+/* Button styles */
+.btn-primary {
+    background-color: #1B396A;
+    border-color: #1B396A;
+}
+
+.btn-primary:hover {
+    background-color: #144058;
+    border-color: #144058;
+}
+
+/* Table styles */
+.table-hover tbody tr:hover {
+    background-color: rgba(27, 57, 106, 0.05);
+}
+
+.table-dark {
+    background-color: #1B396A;
+}
+
+/* Alert styles */
+.alert {
+    border: none;
+    border-radius: 8px;
+}
+
+/* Form styles */
+.form-select:focus, .form-control:focus {
+    border-color: #1B396A;
+    box-shadow: 0 0 0 0.2rem rgba(27, 57, 106, 0.25);
+}
+
+/* ========== RESPONSIVE STYLES ========== */
+
+/* Mobile First Approach */
+.main-content {
+    padding: 15px;
+}
+
+/* Sidebar responsive */
+.sidebar {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
+/* Typography responsive */
+.h1-md {
+    font-size: 1.75rem;
+}
+
+.h5-md {
+    font-size: 1.125rem;
+}
+
+.h6-md {
+    font-size: 1rem;
+}
+
+/* Alert responsive */
+.alert-info .bi-info-circle-fill {
+    flex-shrink: 0;
+}
+
+/* Card responsive */
+.card-body {
+    padding: 1rem;
+}
+
+/* Button responsive */
+.d-grid .btn {
+    width: 100%;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+    .main-content {
+        padding: 18px;
+    }
+    
+    .card-body {
+        padding: 1.25rem;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    .main-content {
+        padding: 20px;
+    }
+    
+    .h1-md {
+        font-size: 2.5rem;
+    }
+    
+    .h5-md {
+        font-size: 1.25rem;
+    }
+    
+    .h6-md {
+        font-size: 1.125rem;
+    }
+    
+    .card-body {
+        padding: 1.5rem;
+    }
+    
+    .alert-info .bi-info-circle-fill {
+        font-size: 1.5rem !important;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    .main-content {
+        padding: 25px;
+    }
+    
+    .sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .main-content {
+        padding: 30px;
+    }
+    
+    .container-fluid {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+}
+
+/* Mobile specific improvements */
+@media (max-width: 767.98px) {
+    /* Hide sidebar on mobile */
+    .sidebar {
+        display: none !important;
+    }
+    
+    /* Adjust navbar for mobile */
+    .navbar-brand {
+        font-size: 1rem;
+    }
+    
+    /* Improve form spacing on mobile */
+    .form-label {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-control, .form-select {
+        font-size: 16px; /* Prevents zoom on iOS */
+        padding: 0.75rem;
+    }
+    
+    /* Card adjustments for mobile */
+    .card {
+        margin-bottom: 1rem;
+        border-radius: 0.5rem;
+    }
+    
+    .card-header {
+        padding: 1rem;
+    }
+    
+    /* Button improvements for mobile */
+    .btn {
+        padding: 0.75rem 1rem;
+        font-weight: 500;
+    }
+    
+    /* Alert improvements for mobile */
+    .alert {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    /* Typography improvements for mobile */
+    h1 {
+        font-size: 1.75rem;
+        line-height: 1.3;
+    }
+    
+    .lead {
+        font-size: 1rem;
+    }
+    
+    /* Image responsive */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* Tablet specific improvements */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .main-content {
+        padding: 20px;
+    }
+    
+    .sidebar {
+        padding: 1rem;
+    }
+}
+
+/* ========== NAVBAR RESPONSIVE IMPROVEMENTS ========== */
+
+/* Navbar brand responsive */
+.navbar-brand {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.navbar-toggler {
+    border: none;
+    padding: 0.25rem 0.5rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+/* Navbar collapse improvements */
+.navbar-collapse {
+    flex-grow: 0;
+}
+
+/* Mobile navbar styles */
+@media (max-width: 991.98px) {
+    .navbar-brand {
+        font-size: 1rem;
+    }
+    
+    .navbar-nav {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .navbar-nav .nav-link {
+        padding: 0.75rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .navbar-nav .nav-link:last-child {
+        border-bottom: none;
+    }
+}
+
+/* ========== UTILITY CLASSES ========== */
+
+/* Width utilities for responsive */
+.w-md-50 {
+    width: 50% !important;
+}
+
+@media (max-width: 767.98px) {
+    .w-md-50 {
+        width: 75% !important;
+    }
+}
+
+/* Font size utilities */
+.font-size-md {
+    font-size: 1.5rem !important;
+}
+
+@media (min-width: 768px) {
+    .font-size-md {
+        font-size: 1.5rem !important;
+    }
+}
+
+/* Spacing utilities for responsive */
+@media (max-width: 575.98px) {
+    .py-responsive {
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+}
+
+@media (min-width: 576px) {
+    .py-responsive {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+}
+
+/* ========== PERFORMANCE OPTIMIZATIONS ========== */
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Hardware acceleration for better performance */
+.card, .btn, .alert {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/* Print styles */
+@media print {
+    .navbar, .sidebar, .btn, .alert {
+        display: none !important;
+    }
+    
+    .main-content {
+        padding: 0;
+        margin: 0;
+    }
+    
+    .card {
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+}
