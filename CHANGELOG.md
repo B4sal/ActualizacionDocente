@@ -110,22 +110,6 @@ Registro de cambios significativos en el proyecto del Instituto Tecnológico de 
 
 ---
 
-## 🔮 Próximas Versiones
-
-### v2.1.0 (Planificado)
-- [ ] Sistema de autenticación de usuarios
-- [ ] Reportes en PDF
-- [ ] Notificaciones por email
-- [ ] Búsqueda avanzada
-
-### v3.0.0 (Futuro)
-- [ ] API REST completa
-- [ ] Panel de administración avanzado
-- [ ] Integración con sistemas institucionales
-- [ ] Aplicación móvil
-
----
-
 ## 🏷️ Convenciones de Versionado
 
 Este proyecto sigue [Semantic Versioning](https://semver.org/):
