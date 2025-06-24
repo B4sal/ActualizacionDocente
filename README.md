@@ -54,7 +54,7 @@ Facilitar la administración académica mediante una plataforma intuitiva que pe
 1. **Descargar el proyecto**
    ```bash
    # Opción 1: Clonar repositorio
-   git clone [https://github.com/B4sal/ActualizacionDocente]
+   git clone https://github.com/B4sal/ActualizacionDocente
    
    # Opción 2: Descargar ZIP y extraer
    ```
