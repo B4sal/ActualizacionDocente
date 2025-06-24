@@ -54,7 +54,7 @@ Facilitar la administración académica mediante una plataforma intuitiva que pe
 1. **Descargar el proyecto**
    ```bash
    # Opción 1: Clonar repositorio
-   git clone [URL-del-repositorio]
+   git clone [https://github.com/B4sal/ActualizacionDocente]
    
    # Opción 2: Descargar ZIP y extraer
    ```
@@ -185,7 +185,7 @@ Para ver el historial completo de cambios y evolución del proyecto, consulta:
 
 ## 📄 Licencia
 
-Este proyecto está licenciado bajo la **MIT License** - ver el archivo [LICENSE.txt](LICENSE.txt) para más detalles.
+Este proyecto está licenciado bajo la **MIT License** - ver el archivo [LICENSE](LICENSE) para más detalles.
 
 ### 🎓 Uso Académico
 Este software es especialmente diseñado para uso académico y educativo. Se permite y fomenta su uso en:
