@@ -144,39 +144,6 @@ Para ver el historial completo de cambios y evolución del proyecto, consulta:
 - [x] Base de datos optimizada
 - [x] Documentación completa
 
-### 🚧 En Desarrollo
-- [ ] Sistema de autenticación
-- [ ] Reportes en PDF
-- [ ] Notificaciones por email
-- [ ] Panel de estadísticas
-
-### 🔮 Próximas Características
-- [ ] API REST completa
-- [ ] Aplicación móvil
-- [ ] Integración institucional
-- [ ] Sistema de roles avanzado
-
-## 🤝 Contribución
-
-### Para Desarrolladores
-1. Fork el proyecto
-2. Crear rama feature (`git checkout -b feature/nueva-caracteristica`)
-3. Commit cambios (`git commit -m 'Agregar nueva característica'`)
-4. Push a la rama (`git push origin feature/nueva-caracteristica`)
-5. Abrir Pull Request
-
-### Para Usuarios Académicos
-- 📝 Reportar bugs en Issues
-- 💡 Sugerir mejoras
-- 📖 Contribuir a documentación
-- 🧪 Realizar pruebas
-
-## 📞 Soporte
-
-### Contacto Técnico
-- **Email**: [soporte-tecnico@itmerida.mx]
-- **Tel**: [+52 999 XXX XXXX]
-
 ### Documentación
 - 📚 **[Wiki del Proyecto](docs/)**
 - 🔧 **[Guía de Instalación](docs/INSTALL.md)**
@@ -200,7 +167,7 @@ Si utilizas este proyecto en tu trabajo académico, por favor cita:
 ```
 Sistema de Actualización Docente (2025)
 Instituto Tecnológico de Mérida
-Disponible en: [URL del repositorio]
+Disponible en: https://github.com/B4sal/ActualizacionDocente
 ```
 
 ## 🏆 Reconocimientos
