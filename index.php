@@ -65,7 +65,7 @@
                             <div class="card-header bg-white">
                                 <h5 class="card-title mb-0 h6 h5-md">
                                     <i class="bi bi-file-earmark-plus text-primary me-2"></i>
-                                    Crear evento de Curso
+                                    Crear evento academico
                                 </h5>
                                 <small class="text-muted">Complete el formulario para crear un nuevo encabezado de curso</small>
                             </div>
@@ -101,7 +101,7 @@
                                         <div class="col-12 mb-3">
                                             <div class="d-grid d-md-block">
                                                 <button type="submit" class="btn btn-primary me-0 me-md-2 mb-2 mb-md-0">
-                                                    <i class="bi bi-save"></i> Guardar Encabezado
+                                                    <i class="bi bi-save"></i> Guardar evento
                                                 </button>
                                                 <button type="reset" class="btn btn-outline-secondary">
                                                     <i class="bi bi-arrow-clockwise"></i> Limpiar Formulario
