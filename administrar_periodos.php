@@ -93,12 +93,13 @@ require_once 'config/conn.php';
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">
+                    <h5 class="modal-title" id="modalPeriodoTitle">
                         <i class="bi bi-calendar3"></i> Nuevo Periodo
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form id="formPeriodo">
+                    <input type="hidden" id="periodoId" name="periodoId">
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="nombrePeriodo" class="form-label">
@@ -125,7 +126,7 @@ require_once 'config/conn.php';
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             <i class="bi bi-x-circle"></i> Cancelar
                         </button>
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary" id="btnSubmitPeriodo">
                             <i class="bi bi-check-circle"></i> Crear Periodo
                         </button>
                     </div>

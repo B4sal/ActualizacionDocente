@@ -1,5 +1,7 @@
 // Variables globales
 let periodoIdEliminar = null;
+let modoEdicion = false;
+// Versión actualizada con edición de periodos habilitada
 
 // Cuando se carga el documento
 document.addEventListener('DOMContentLoaded', function() {
@@ -8,6 +10,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event listeners
     document.getElementById('formPeriodo').addEventListener('submit', guardarPeriodo);
     document.getElementById('btnConfirmarEliminar').addEventListener('click', confirmarEliminarPeriodo);
+    
+    // Event listener para el botón "Nuevo Periodo"
+    document.querySelector('[data-bs-target="#modalPeriodo"]').addEventListener('click', function() {
+        abrirModalNuevoPeriodo();
+    });
 });
 
 // Cargar lista de periodos
@@ -62,8 +69,14 @@ function mostrarPeriodos(periodos) {
                         
                         <div class="mt-auto">
                             <div class="d-flex gap-2">
-                                <button class="btn btn-outline-danger btn-sm flex-fill" 
-                                        onclick="eliminarPeriodo(${periodo.id}, '${periodo.nombre}')">
+                                <button class="btn btn-outline-primary btn-sm" 
+                                        onclick="editarPeriodo(${periodo.id}, '${periodo.nombre}')" 
+                                        title="Editar periodo">
+                                    <i class="bi bi-pencil"></i> Editar
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm" 
+                                        onclick="eliminarPeriodo(${periodo.id}, '${periodo.nombre}')" 
+                                        title="Eliminar periodo">
                                     <i class="bi bi-trash"></i> Eliminar
                                 </button>
                             </div>
@@ -77,12 +90,34 @@ function mostrarPeriodos(periodos) {
     container.innerHTML = html;
 }
 
-// Guardar nuevo periodo
+// Abrir modal para nuevo periodo
+function abrirModalNuevoPeriodo() {
+    modoEdicion = false;
+    document.getElementById('periodoId').value = '';
+    document.getElementById('nombrePeriodo').value = '';
+    document.getElementById('modalPeriodoTitle').innerHTML = '<i class="bi bi-calendar3"></i> Nuevo Periodo';
+    document.getElementById('btnSubmitPeriodo').innerHTML = '<i class="bi bi-check-circle"></i> Crear Periodo';
+}
+
+// Abrir modal para editar periodo
+function editarPeriodo(id, nombre) {
+    modoEdicion = true;
+    document.getElementById('periodoId').value = id;
+    document.getElementById('nombrePeriodo').value = nombre;
+    document.getElementById('modalPeriodoTitle').innerHTML = '<i class="bi bi-pencil"></i> Editar Periodo';
+    document.getElementById('btnSubmitPeriodo').innerHTML = '<i class="bi bi-check-circle"></i> Actualizar Periodo';
+    
+    const modal = new bootstrap.Modal(document.getElementById('modalPeriodo'));
+    modal.show();
+}
+
+// Guardar nuevo periodo o actualizar existente
 function guardarPeriodo(e) {
     e.preventDefault();
     
     const formData = new FormData();
     const nombre = document.getElementById('nombrePeriodo').value.trim();
+    const id = document.getElementById('periodoId').value;
     
     if (!nombre) {
         mostrarMensaje('El nombre del periodo es requerido', 'danger');
@@ -91,20 +126,30 @@ function guardarPeriodo(e) {
     
     formData.append('nombre', nombre);
     
+    let url, mensajeExito;
+    if (modoEdicion) {
+        formData.append('id', id);
+        url = 'api/update_periodo.php';
+        mensajeExito = 'Periodo actualizado exitosamente';
+    } else {
+        url = 'api/create_periodo.php';
+        mensajeExito = 'Periodo creado exitosamente';
+    }
+    
     // Deshabilitar botón de envío
-    const btnSubmit = e.target.querySelector('button[type="submit"]');
+    const btnSubmit = document.getElementById('btnSubmitPeriodo');
     const btnText = btnSubmit.innerHTML;
     btnSubmit.disabled = true;
-    btnSubmit.innerHTML = '<i class="bi bi-hourglass-split"></i> Guardando...';
+    btnSubmit.innerHTML = '<i class="bi bi-hourglass-split"></i> ' + (modoEdicion ? 'Actualizando...' : 'Guardando...');
     
-    fetch('api/create_periodo.php', {
+    fetch(url, {
         method: 'POST',
         body: formData
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            mostrarMensaje('Periodo creado exitosamente', 'success');
+            mostrarMensaje(mensajeExito, 'success');
             document.getElementById('formPeriodo').reset();
             
             // Cerrar modal
@@ -119,7 +164,7 @@ function guardarPeriodo(e) {
     })
     .catch(error => {
         console.error('Error:', error);
-        mostrarMensaje('Error de conexión al guardar periodo', 'danger');
+        mostrarMensaje('Error de conexión al ' + (modoEdicion ? 'actualizar' : 'guardar') + ' periodo', 'danger');
     })
     .finally(() => {
         // Rehabilitar botón
@@ -206,4 +251,6 @@ function mostrarMensaje(mensaje, tipo) {
 // Limpiar modal al cerrarlo
 document.getElementById('modalPeriodo').addEventListener('hidden.bs.modal', function() {
     document.getElementById('formPeriodo').reset();
+    modoEdicion = false;
+    document.getElementById('periodoId').value = '';
 });
