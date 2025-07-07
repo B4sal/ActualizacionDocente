@@ -49,33 +49,31 @@ Facilitar la administración académica mediante una plataforma intuitiva que pe
 - **Navegador web** moderno
 - **Git** (opcional)
 
-### Pasos de Instalación
+### Instalación en 5 Pasos
 
-1. **Descargar el proyecto**
+1. **📥 Descargar el proyecto**
    ```bash
-   # Opción 1: Clonar repositorio
    git clone https://github.com/B4sal/ActualizacionDocente
-   
-   # Opción 2: Descargar ZIP y extraer
    ```
+   *O descargar ZIP desde GitHub*
 
-2. **Configurar entorno**
-   ```bash
-   # Mover archivos a XAMPP
-   C:\xampp\htdocs\ActualizacionDocente\
-   ```
+2. **📂 Configurar entorno**
+   - Mover archivos a: `C:\xampp\htdocs\ActualizacionDocente\`
 
-3. **Iniciar servicios**
+3. **▶️ Iniciar servicios**
    - Abrir XAMPP Control Panel
    - Iniciar **Apache** y **MySQL**
 
-4. **Configurar base de datos**
+4. **🗄️ Configurar base de datos**
    - Acceder a [phpMyAdmin](http://localhost/phpmyadmin)
    - Crear base de datos: `actualizaciondocente`
    - Importar: `sql/actualizaciondocenteDB.sql`
 
-5. **Acceder al sistema**
+5. **🌐 Acceder al sistema**
    - Abrir: [http://localhost/ActualizacionDocente/](http://localhost/ActualizacionDocente/)
+
+### 📖 Guía Detallada
+Para instrucciones paso a paso con capturas de pantalla, consulta nuestra **[Guía de Instalación Completa](docs/INSTALL.md)** 📋
 
 ## 📱 Capturas de Pantalla
 
@@ -146,7 +144,7 @@ Para ver el historial completo de cambios y evolución del proyecto, consulta:
 
 ### Documentación
 - 📚 **[Wiki del Proyecto](docs/)**
-- 🔧 **[Guía de Instalación](docs/INSTALL.md)**
+- � **[Guía de Instalación Completa](docs/INSTALL.md)**
 - 🐛 **[Solución de Problemas](docs/TROUBLESHOOTING.md)**
 - 📋 **[Changelog Completo](CHANGELOG.md)**
 
